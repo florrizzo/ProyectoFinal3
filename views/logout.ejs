@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('./partials/head'); %>
+  </head>
+  <body>
+    <% if (usuario){ %>
+    <h1>Hasta luego <%=usuario%></h1>
+    <% } else { %>
+    <h1>Hasta luego</h1>
+    <% } %>
+    <script>
+      function redirect () {
+        setTimeout(document.location.href = '/login', 4000000);
+      }
+      redirect()
+    </script>
+  </body>  
+</html>

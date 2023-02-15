@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('./partials/head'); %>
+  </head>
+  <body>
+
+    <% if (usuario){ %>
+        
+        <form>
+            <div class="user">
+                <h1>Bienvenido <%=usuario%></h1>             
+                <button class="btn-log"><a href="logout">Desloguear</a></button>                
+            </div>
+        </form>
+        
+    <% } %> 
+
+    <h2>Ingrese un producto:</h2>
+    <div>
+        <form name="form" onsubmit="enviarProducto(); return false">
+            <div class="input">
+          <label for="Title" class="input-label">Nombre:</label>
+          <input type="text" id="Title" name="title" class="input-field" />
+        </div>
+        <div class="input">
+          <label for="Price" class="input-label">Precio:</label>
+          <input type="text" id="Price" name="price" class="input-field" />
+        </div>
+        <div class="input">
+          <label for="URL" class="input-label">URL Foto:</label>
+          <input type="text" id="URL" name="thumbnail" class="input-field" />
+        </div>
+        <input type="submit" class="action-button" />
+      </form>
+    </div>
+    <div id="div-list-products"></div>
+
+    <h2>Centro de Mensajes</h2>
+    <form onsubmit="enviarMsg(); return false">
+      <input
+        class="input-field"
+        id="input-email"
+        type="text"
+        placeholder="Email"
+        required
+      /><br />
+      <input
+        class="input-field"
+        id="input-nombre"
+        type="text"
+        placeholder="Nombre"
+        required
+      /><br />
+      <input
+        class="input-field"
+        id="input-apellido"
+        type="text"
+        placeholder="Apellido"
+        required
+      /><br />
+      <input
+        class="input-field"
+        id="input-edad"
+        type="text"
+        placeholder="Edad"
+        required
+      /><br />
+      <input
+        class="input-field"
+        id="input-alias"
+        type="text"
+        placeholder="Alias"
+        required
+      /><br />
+      <input
+        class="input-field"
+        id="input-avatar"
+        type="text"
+        placeholder="URL de avatar"
+        required
+      /><br />
+      <div class="chat" id="div-list-msgs"></div>
+      <input
+        class="input-field"
+        id="input-msg"
+        type="text"
+        placeholder="Mensaje"
+      />
+      <input type="submit" value="Enviar!" class="action-button" />
+    </form>
+  </body>
+</html>
