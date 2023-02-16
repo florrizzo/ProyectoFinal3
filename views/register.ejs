@@ -9,11 +9,32 @@
       <form name="login-form" action="/register" method="POST">
         <div class="input">
           <label for="Email" class="input-label">Ingrese un Email:</label>
-          <input type="text" id="Email" name="username" class="input-field" />
+          <input type="text" id="Email" name="username" class="input-field" required/>
         </div>
         <div class="input"> 
             <label for="password" class="input-label">Ingrese una contraseña:</label>
-            <input type="text" id="password" name="password" class="input-field" />
+            <input type="text" id="password" name="password" class="input-field" required/>
+        </div>
+        <div class="input"> 
+          <label for="nombre" class="input-label">Nombre:</label>
+          <input type="text" id="nombre" name="nombre" class="input-field" required/>
+        </div>
+        <div class="input"> 
+          <label for="direccion" class="input-label">Dirección:</label>
+          <input type="text" id="direccion" name="direccion" class="input-field" required/>
+        </div>
+        <div class="input"> 
+          <label for="edad" class="input-label">Edad:</label>
+          <input type="text" id="edad" name="edad" class="input-field" required/>
+        </div>
+        <div class="input"> 
+          <label for="telefono" class="input-label">Teléfono:</label>
+          <small>Formato: 12-3456789012</small>
+          <input type="tel" id="telefono" name="telefono" pattern="[0-9]{2}-[0-9]{10}" class="input-field" required>
+        </div>
+        <div class="input"> 
+          <label for="url" class="input-label">URL:</label>
+          <input type="text" id="url" name="url" class="input-field" required/>
         </div>
         <input type="submit" class="action-button" />
       </form>

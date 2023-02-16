@@ -12,9 +12,27 @@ html {
   background-color: #e3e2de;
 }
 
+div {
+	display: block;
+}
+
+.div-flex {
+	display: flex;
+}
+
+.div-left {
+	width: 60%;
+	display: inline;
+}
+
+.div-right{
+	display: inline;
+	width: 40%;
+}
+
 .divTable {
   display: table;
-  width: 60%;
+  width: 90%;
   margin: 2rem auto;
   text-align: center;
   background-color: #eee;
@@ -30,31 +48,45 @@ html {
 .divCell {
   float: left; /*fix for  buggy browsers*/
   display: table-column;
-  width: 33%;
+  width: 25%;
   height: 52px;
   background-color: #ccc;
 }
 
-img.pequeña {
-  width: 50px;
-  height: 50px;
-}
-
-form{
-  margin: 2rem auto;
+.user{
+	margin: 2rem auto;
 	display: flex;
 	flex-direction: column;
-	width: 100%;
-	max-width: 425px;
+	text-align: center;
+	justify-content: center;
+	max-width: 90%;
 	background-color: #FFF;
 	border-radius: 10px;
 	box-shadow: 0 10px 20px 0 rgba(#999, .25);
 	padding: 2rem 1rem 0;
 }
 
-.user{
-	display: flex;
+
+img.pequeña {
+  width: 50px;
+  height: 50px;
 }
+
+
+form{
+	margin: 2rem auto;
+	display: flex;
+	flex-direction: column;
+	text-align: center;
+	justify-content: center;
+	max-width: 40%;
+	background-color: #FFF;
+	border-radius: 10px;
+	box-shadow: 0 10px 20px 0 rgba(#999, .25);
+	padding: 2rem 1rem 0;
+}
+
+
 
 .btn-log {
 	width: 28%;
@@ -112,4 +144,8 @@ em{
 .bolded{
 	font-weight: bold;
 	color: blue;
+}
+
+.hidden{
+	display: none;
 }

@@ -122,6 +122,11 @@ passport.use(
         const newUser = {
           username: username,
           password: createHash(password),
+          nombre: req.body.nombre,
+          direccion: req.body.direccion,
+          edad: req.body.edad,
+          telefono: req.body.telefono,
+          url: req.body.url
         };
         Usuarios.create(newUser, (err, userWithId) => {
           if (err) {
@@ -149,13 +154,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 /* Endpoints */
-/* app.get("/", (req, res) => {
-  res.json({
-    PORT,
-    MODE,
-    MONGO_URL,
-  });
-}); */
 
 const routes = require("./routes");
 
@@ -177,6 +175,11 @@ app.post(
   routes.postSignup
 );
 
+app.post(
+  "/enviarCarrito",
+  routes.postEnviarCarrito
+);
+
 app.get("/failLogin", (req, res) => {
   res.render("failLogin");
 });
@@ -192,6 +195,7 @@ app.get("/showsession", (req, res) => {
 app.get("/logout", routes.getLogout);
 
 app.get("/info", routes.getInfo);
+
 
 const contenedor = new ProductosDaoMongoDB();
 const messages = new MensajesDaoMongoDB();
@@ -252,8 +256,4 @@ io.on("connection", async (socket) => {
     io.sockets.emit("msg-list", await normalizarMensajes());
   });
 
-  socket.on("product", async (data) => {
-    await contenedor.save(data.title, data.price, data.thumbnail);
-    io.sockets.emit("product-list", await contenedor.getAll());
-  });
 });

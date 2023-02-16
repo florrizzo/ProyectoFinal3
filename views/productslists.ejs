@@ -4,37 +4,53 @@
     <%- include('./partials/head'); %>
   </head>
   <body>
+    
 
-    <% if (usuario){ %>
-        
-        <form>
-            <div class="user">
-                <h1>Bienvenido <%=usuario%></h1>             
-                <button class="btn-log"><a href="logout">Desloguear</a></button>                
-            </div>
-        </form>
-        
-    <% } %> 
+    <div class="div-flex">
+      <div id="div-list-products" class="div-left">
+        <% if (productos.length > 0){ %>
+          <h1>Lista de productos:</h1>                
+          <div class="divTable">
+              <div class="headRow">
+                  <div  class="divCell"><p>Nombre</p></div>
+                  <div  class="divCell"><p>Precio</p></div>
+                  <div  class="divCell"><p>Foto</p></div>
+              </div>
 
-    <h2>Ingrese un producto:</h2>
-    <div>
-        <form name="form" onsubmit="enviarProducto(); return false">
-            <div class="input">
-          <label for="Title" class="input-label">Nombre:</label>
-          <input type="text" id="Title" name="title" class="input-field" />
-        </div>
-        <div class="input">
-          <label for="Price" class="input-label">Precio:</label>
-          <input type="text" id="Price" name="price" class="input-field" />
-        </div>
-        <div class="input">
-          <label for="URL" class="input-label">URL Foto:</label>
-          <input type="text" id="URL" name="thumbnail" class="input-field" />
-        </div>
-        <input type="submit" class="action-button" />
-      </form>
+              <% for (let i = 0; i < productos.length; i++) { %>         
+                  <div class="divRow">
+                      <div class="divCell"><p><%=productos[i].title%></p></div>
+                      <div class="divCell"><p><%=productos[i].price%></p></div>
+                      <div class="divCell"><img class="pequeña" src="<%=productos[i].thumbnail%>" alt="imagen-producto"></div>
+                      <button id="<%=productos[i].title%>-<%=productos[i].price%>" class="divCell" onclick="agregarProducto(this.id)">Agregar al carrito</button>
+                  </div>
+              <% } %>       
+          </div>  
+      <% } else { %>
+          <h1>No hay productos</h1>
+      <% } %>
     </div>
-    <div id="div-list-products"></div>
+      <div class="div-right">
+        <% if (usuario){ %>
+
+          <div class="user">
+            <h1><%=usuario%></h1>
+            <button class="btn-log"><a href="logout">Desloguear</a></button>
+
+            <p>Tus datos:</p>
+            <p>Nombre: <%=nombre%></p>
+            <p>Dirección: <%=direccion%></p>
+            <p>Edad: <%=edad%></p>
+            <p>Teléfono: <%=telefono%></p>
+
+            <h2>Carrito:</h2>
+            <div id="div-cart-products" class="carrito"></div>
+          </div>
+
+        <% } %> 
+      </div>
+    </div>
+  
 
     <h2>Centro de Mensajes</h2>
     <form onsubmit="enviarMsg(); return false">
