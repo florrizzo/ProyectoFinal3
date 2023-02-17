@@ -96,7 +96,7 @@ async function postEnviarCarrito(req, res) {
   const twilio = require("twilio");
 
   const accountSid = "AC4a83255eb09003b2b25ede9b56db27f6";
-  const authToken = "Agregar el authToken aqui";
+  const authToken = process.env.Twilio_authToken;
 
   const client = twilio(accountSid, authToken);
 
