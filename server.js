@@ -12,6 +12,7 @@ const Usuarios = require("./models/usuarios.js");
 const bcrypt = require("bcrypt");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
+const winston = require('winston');
 
 /* Express server */
 const app = express();
@@ -40,6 +41,17 @@ app.use(
   })
 );
 
+/* Winston configuration */
+
+const logger = winston.createLogger({
+  level: 'warn',
+  transports: [
+    new winston.transports.Console({ level: 'info' }),
+    new winston.transports.File({ filename: 'warn.log', level: 'warn' }),
+    new winston.transports.File({ filename: 'info.log', level: 'error' }),
+  ],
+});
+
 //IMPLEMENTACION
 const httpServer = require("http").createServer(app);
 const io = require("socket.io")(httpServer);
@@ -62,9 +74,9 @@ app.set("view engine", "ejs");
 async function connectMG() {
   try {
     await mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true });
-    console.log("Conectado a mongo! ✅");
+    logger.log('info', 'Conectado a mongo! ✅');
   } catch (e) {
-    console.log(e);
+    logger.log('error', e);
     throw "can not connect to the db";
   }
 }
@@ -87,12 +99,12 @@ passport.use(
       if (err) return done(err);
 
       if (!user) {
-        console.log("User Not Found with username " + username);
+        logger.log('info', 'User Not Found with username ' + username);
         return done(null, false);
       }
 
       if (!isValidPassword(user, password)) {
-        console.log("Invalid Password");
+        logger.log('info', 'Invalid Password');
         return done(null, false);
       }
 
@@ -110,12 +122,12 @@ passport.use(
     (req, username, password, done) => {
       Usuarios.findOne({ username: username }, function (err, user) {
         if (err) {
-          console.log("Error in SignUp: " + err);
+          logger.log('error', 'Error in SignUp: ' + err);
           return done(err);
         }
 
         if (user) {
-          console.log("User already exists");
+          logger.log('info', 'User already exists');
           return done(null, false);
         }
 
@@ -130,11 +142,11 @@ passport.use(
         };
         Usuarios.create(newUser, (err, userWithId) => {
           if (err) {
-            console.log("Error in Saving user: " + err);
+            logger.log('info', 'Error in Saving user: ' + err);
             return done(err);
           }
-          console.log(user);
-          console.log("User Registration succesful");
+          logger.log('info', user);
+          logger.log('info', 'User Registration succesful');
           return done(null, userWithId);
         });
       });
