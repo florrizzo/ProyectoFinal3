@@ -52,7 +52,7 @@ function denormalizarMensajes(ListMessages) {
   return denormalizedListMessages;
 }
 
-socket.on("connect", () => {
+/* socket.on("connect", () => {
   console.log("me conecte!");
 });
 
@@ -66,7 +66,7 @@ socket.on("msg-list", (data) => {
         <div/>`;
   });
   document.getElementById("div-list-msgs").innerHTML = html;
-});
+}); */
 
 function enviarMsg() {
   const email = document.getElementById("input-email").value;

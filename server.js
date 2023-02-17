@@ -188,6 +188,18 @@ app.get("/failRegister", (req, res) => {
   res.render("failRegister");
 });
 
+app.post('/buscadorproductos', routes.postProductFilter);
+app.get('/buscadorproductos', (req, res) => {
+  res.redirect("/");
+});
+
+app.post('/addToCart', routes.postAddToCart);
+
+app.post('/deleteFromCart', routes.deleteFromCart);
+
+app.post('/emptyCart', routes.postEmptyCart);
+
+
 app.get("/showsession", (req, res) => {
   res.json(req.session);
 });
@@ -195,7 +207,6 @@ app.get("/showsession", (req, res) => {
 app.get("/logout", routes.getLogout);
 
 app.get("/info", routes.getInfo);
-
 
 const contenedor = new ProductosDaoMongoDB();
 const messages = new MensajesDaoMongoDB();
@@ -238,7 +249,7 @@ async function normalizarMensajes() {
 normalizarMensajes();
 
 /* Sockets */
-io.on("connection", async (socket) => {
+/* io.on("connection", async (socket) => {
   console.log("Usuario conectado");
   io.sockets.emit("msg-list", await normalizarMensajes());
   io.sockets.emit("product-list", await contenedor.getAll());
@@ -254,6 +265,5 @@ io.on("connection", async (socket) => {
       data.text
     );
     io.sockets.emit("msg-list", await normalizarMensajes());
-  });
-
-});
+  }); 
+});*/

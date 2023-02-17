@@ -93,6 +93,10 @@ form{
 	height: 10%;
 }
 
+.btn-cart {
+	display: inline;
+}
+
 .input {
 	display: flex;
 	flex-direction: column-reverse;
@@ -148,4 +152,13 @@ em{
 
 .hidden{
 	display: none;
+}
+
+.marginpadding-0 {
+	margin: 0;
+	padding: 0;	
+}
+
+input.divCell {
+    width: 100%;
 }

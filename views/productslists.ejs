@@ -4,55 +4,126 @@
     <%- include('./partials/head'); %>
   </head>
   <body>
-    
-
     <div class="div-flex">
       <div id="div-list-products" class="div-left">
         <% if (productos.length > 0){ %>
-          <h1>Lista de productos:</h1>                
-          <div class="divTable">
-              <div class="headRow">
-                  <div  class="divCell"><p>Nombre</p></div>
-                  <div  class="divCell"><p>Precio</p></div>
-                  <div  class="divCell"><p>Foto</p></div>
-              </div>
+        <div class="productSearch">
+          <form name="sendCart" action="/buscadorproductos" method="POST">
+            <input type="text" name="buscadorProducto" placeholder="Nombre" />
+            <input type="submit" value="Buscar" />
+          </form>
 
-              <% for (let i = 0; i < productos.length; i++) { %>         
-                  <div class="divRow">
-                      <div class="divCell"><p><%=productos[i].title%></p></div>
-                      <div class="divCell"><p><%=productos[i].price%></p></div>
-                      <div class="divCell"><img class="pequeña" src="<%=productos[i].thumbnail%>" alt="imagen-producto"></div>
-                      <button id="<%=productos[i].title%>-<%=productos[i].price%>" class="divCell" onclick="agregarProducto(this.id)">Agregar al carrito</button>
-                  </div>
-              <% } %>       
-          </div>  
-      <% } else { %>
-          <h1>No hay productos</h1>
-      <% } %>
-    </div>
+          <% if (productosEncontrados.length > 0){ %>
+          <div class="divTable">
+            <div class="headRow">
+              <div class="divCell"><p>Nombre</p></div>
+              <div class="divCell"><p>Precio</p></div>
+              <div class="divCell"><p>Foto</p></div>
+            </div>
+
+            <% for (let i = 0; i < productosEncontrados.length; i++) { %>
+            <div class="divRow">
+              <div class="divCell">
+                <p><%=productosEncontrados[i].title%></p>
+              </div>
+              <div class="divCell">
+                <p><%=productosEncontrados[i].price%></p>
+              </div>
+              <div class="divCell">
+                <img
+                  class="pequeña"
+                  src="<%=productosEncontrados[i].thumbnail%>"
+                  alt="imagen-producto"
+                />
+              </div>
+            </div>
+            <% } %>
+          </div>
+          <% } else { %>
+          <h3>No hay productos con ese nombre</h3>
+          <% } %>
+        </div>
+        <h1>Lista de productos:</h1>
+        <div class="divTable">
+          <div class="headRow">
+            <div class="divCell"><p>Nombre</p></div>
+            <div class="divCell"><p>Precio</p></div>
+            <div class="divCell"><p>Foto</p></div>
+          </div>
+
+          <% for (let i = 0; i < productos.length; i++) { %>
+          <div class="divRow">
+            <div class="divCell"><p><%=productos[i].title%></p></div>
+            <div class="divCell"><p><%=productos[i].price%></p></div>
+            <div class="divCell">
+              <img
+                class="pequeña"
+                src="<%=productos[i].thumbnail%>"
+                alt="imagen-producto"
+              />
+            </div>
+            <form
+              name="sendCart"
+              class="divCell marginpadding-0"
+              action="/addToCart"
+              method="POST"
+            >
+              <textarea class="hidden" name="addcart"><%=productos[i].title%></textarea>
+              <input type="submit" class="divCell" value="Agregar al carrito" />
+            </form>
+          </div>
+          <% } %>
+        </div>
+        <% } else { %>
+        <h1>No hay productos</h1>
+        <% } %>
+      </div>
       <div class="div-right">
         <% if (usuario){ %>
 
-          <div class="user">
-            <h1><%=usuario%></h1>
-            <button class="btn-log"><a href="logout">Desloguear</a></button>
+        <div class="user">
+          <h1><%=usuario%></h1>
+          <button class="btn-log"><a href="logout">Desloguear</a></button>
 
-            <p>Tus datos:</p>
-            <p>Nombre: <%=nombre%></p>
-            <p>Dirección: <%=direccion%></p>
-            <p>Edad: <%=edad%></p>
-            <p>Teléfono: <%=telefono%></p>
+          <p>Tus datos:</p>
+          <p>Nombre: <%=nombre%></p>
+          <p>Dirección: <%=direccion%></p>
+          <p>Edad: <%=edad%></p>
+          <p>Teléfono: <%=telefono%></p>
 
-            <h2>Carrito:</h2>
-            <div id="div-cart-products" class="carrito"></div>
+          <h2>Carrito:</h2>
+          <div id="div-cart-products" class="carrito">
+            <% if (productosCarrito){ %> 
+            <% for (let i = 0; i < productosCarrito.length; i++) { %>
+            <div class="div-flex">
+              <%=productosCarrito[i].title%> - <%=productosCarrito[i].price%>
+              <form
+              name="deleteFromCart"
+              class="marginpadding-0"
+              action="/deleteFromCart"
+              method="POST"
+            >
+              <textarea class="hidden" name="deletefromcart"><%=productosCarrito[i].title%></textarea>
+              <input type="submit" class="btn-cart" value="Eliminar" />
+            </form>
+            </div>
+            <% } %>
+            <div> <em> Total: - <%=total%> </em> </div>
+            <form name="emptyCart" action="/emptyCart" method="POST">
+              <input type="submit" class="btn-cart" value="Vaciar Carrito"/> 
+            </form> 
+              <form name="sendCart" action="/enviarCarrito" method="POST">
+                <input type="submit" class="action-button" value="Enviar"/> 
+              </form> 
+            <% } %>
           </div>
+        </div>
 
-        <% } %> 
+        <% } %>
       </div>
     </div>
-  
 
-    <h2>Centro de Mensajes</h2>
+    <!-- <h2>Centro de Mensajes</h2>
     <form onsubmit="enviarMsg(); return false">
       <input
         class="input-field"
@@ -104,6 +175,6 @@
         placeholder="Mensaje"
       />
       <input type="submit" value="Enviar!" class="action-button" />
-    </form>
+    </form> -->
   </body>
 </html>
