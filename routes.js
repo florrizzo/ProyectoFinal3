@@ -59,7 +59,7 @@ async function getMain(req, res) {
 }
 
 async function postEnviarCarrito(req, res) {
-  const { username, nombre } = req.user;
+  const { username, nombre, telefono } = req.user;
   let carrito = await contenedorCarrito.getCartProducts(username);
   console.log(carrito)
   let htmlcarrito = "";
@@ -97,6 +97,12 @@ async function postEnviarCarrito(req, res) {
 
   const accountSid = "AC4a83255eb09003b2b25ede9b56db27f6";
   const authToken = process.env.Twilio_authToken;
+  const fields = telefono.split('-')
+  let userPhone = '+' + fields[0] + fields[1];
+  /* Numero verificado en Twilio*/
+  /* userPhone = '+543487660828'; */
+  
+  const adminPhone = '+5493487660828';
 
   const client = twilio(accountSid, authToken);
 
@@ -106,7 +112,7 @@ async function postEnviarCarrito(req, res) {
          body: `El usuario ${username} realizó el siguiente pedido:
          ${wappcarrito}`, 
          from: 'whatsapp:+14155238886',       
-         to: 'whatsapp:+5493487660828' 
+         to: 'whatsapp:' + adminPhone
        }) 
       .then(message => console.log(message.sid)); 
 
@@ -116,7 +122,7 @@ async function postEnviarCarrito(req, res) {
       const message = await client.messages.create({
         body: "Tu pedido a Date el gusto se realizó con éxito!",
         from: "+14244849354",
-        to: "+543487660828",
+        to: userPhone,
       });
       console.log(message);
     };
