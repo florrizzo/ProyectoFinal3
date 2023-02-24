@@ -14,14 +14,16 @@ function checkAuthentication(req, res, next) {
 /* Nodemailer */
 const { createTransport } = require("nodemailer");
 
-const TEST_MAIL = "florenciam.rizzo@hotmail.com";
+const TEST_MAIL = process.env.AdminMail || "florenciam.rizzo@hotmail.com";
+const mailUser = process.env.Ethereal_Mail || "hailey.brown@ethereal.email";
+const mailPass = process.env.Ethereal_Pass || "s6hb6pXVzFcPtsHGgC"; 
 
 const transporter = createTransport({
   host: "smtp.ethereal.email",
   port: 587,
   auth: {
-    user: "hailey.brown@ethereal.email",
-    pass: "s6hb6pXVzFcPtsHGgC",
+    user: mailUser,
+    pass: mailPass,
   },
 });
 
@@ -61,7 +63,6 @@ async function getMain(req, res) {
 async function postEnviarCarrito(req, res) {
   const { username, nombre, telefono } = req.user;
   let carrito = await contenedorCarrito.getCartProducts(username);
-  console.log(carrito)
   let htmlcarrito = "";
   let wappcarrito = "";
   let sum = 0;
@@ -95,14 +96,14 @@ async function postEnviarCarrito(req, res) {
   /* Twilio */
   const twilio = require("twilio");
 
-  const accountSid = "AC4a83255eb09003b2b25ede9b56db27f6";
+  const accountSid = process.env.Twilio_accountSid || "AC4a83255eb09003b2b25ede9b56db27f6";
   const authToken = process.env.Twilio_authToken;
   const fields = telefono.split('-')
   let userPhone = '+' + fields[0] + fields[1];
   /* Numero verificado en Twilio*/
   /* userPhone = '+543487660828'; */
   
-  const adminPhone = '+5493487660828';
+  const adminPhone = process.env.Twilio_adminPhone || '+5493487660828';
 
   const client = twilio(accountSid, authToken);
 
